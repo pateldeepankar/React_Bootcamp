@@ -45,9 +45,12 @@
             }
 
             onStartTimer() {
-                this.setState({
-                    timerRef:this.createTimer.bind(this)()
-                })
+                if (this.state.timerRef === null) {
+                    this.setState({
+                        timerRef: this.createTimer.bind(this)()
+                    })
+                }
+
             }
 
             onStopTimer() {

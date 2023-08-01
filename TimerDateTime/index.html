@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Timer</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@200&family=Red+Rose:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script type="text/babel">
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    timerData: 0,
+                    timerCount: null,
+                    date:App.getDate()
+                }
+            }
+
+            static getDate(){
+                const date = new Date();
+                return{
+                    date:date.getDate(),
+                    month: date.getMonth(),
+                    year:date.getFullYear(),
+                    hours: date.getHours(),
+                    minutes:date.getMinutes(),
+                    second: date.getSeconds()
+                }
+            }
+
+
+            onCreateTimer() {
+                const _this = this
+                return setInterval(function () {
+                    _this.setState({
+                        timerData: _this.state.timerData + 1,
+                        date:App.getDate()
+                    });
+                }, 1000);
+            }
+
+            onStartTimer() {
+                if (this.state.timerCount === null) {
+                    this.setState({
+                        timerCount: this.onCreateTimer.bind(this)()
+                    })
+                }
+            }
+
+            onStopTimer() {
+                clearInterval(this.state.timerCount)
+                this.setState({
+                    timerCount: null
+                })
+            }
+
+            render() {
+                console.log(this.state);
+                return (
+                    <div className="container">
+                        <h2 className="timerData"> Timer = {this.state.timerData}</h2>
+                        <h1 className="date"> Date = {this.state.date.date}</h1>
+                        <h1 className="month"> Month = {this.state.date.month}</h1>
+                        <h1 className="year"> Year = {this.state.date.year}</h1>
+                        <h1 className="hour"> Hour = {this.state.date.hours}</h1>
+                        <h1 className="minute"> Minute = {this.state.date.minutes}</h1>
+                        <h1 className="second"> Second = {this.state.date.second}</h1>
+                        <button className="startButton" onClick={this.onStartTimer.bind(this)}>Start</button>
+                        <button className="stopButton" onClick={this.onStopTimer.bind(this)}>Stop</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+
+</html>

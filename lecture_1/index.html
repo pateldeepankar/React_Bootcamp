@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Legacy</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- our react will inject here -->
+    </div>
+    <script type="text/babel">
+        //JavaScript extension aka JSX
+        // var kisko = <h1>Hello World</h1>
+        class HelloJSX extends React.Component{
+            render(){
+                return (
+                  <React.Fragment>  
+                <h1 className="red">Hellow TSX</h1>
+                <input class="inputBox" id="input" type="text"/>
+                <button class ="btn" id="buton">Submit</button>
+            </React.Fragment>
+                );
+            }
+        }
+        var kahaPar = document.getElementById('app');
+        ReactDOM.render(<HelloJSX/>,kahaPar);
+    </script>
+</body>
+</html>

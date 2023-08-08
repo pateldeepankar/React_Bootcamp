@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture3</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- inject code here -->
+    </div>
+    <script type="text/babel">
+        class TextDisplayer extends React.Component{
+            render(){
+                //const text=this.props.disText
+                const{disText,bisText,kisText,testText}=this.props;
+                return (
+                    <div>
+                    <h1>{disText+bisText+kisText+testText}</h1>
+                        <TextDisplayChild kisText={kisText}/>
+                        <TestDisplayChild testText={testText}/>
+                    </div>)
+            }
+        }
+        class TextDisplayChild extends React.Component{
+            render(){
+                //Prop drilling passing props from one class to other:
+                const {kisText}=this.props;
+                return <h3>{kisText}</h3>
+            }
+        }
+        class TestDisplayChild extends React.Component{
+            render(){
+                const {testText}=this.props;
+                return <h3>{testText}</h3>
+            }
+        }
+        class App extends React.Component{
+            render(){
+
+                return(<React.Fragment>
+                        <TextDisplayer disText="Sawan" bisText="Balla" kisText="Test" testText="javascript"/>
+                        </React.Fragment>
+                    )
+            }
+        }
+        ReactDOM.render(<App/>,document.getElementById("root"));
+    </script>
+</body>
+</html>

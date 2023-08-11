@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture5</title>
+    <style>
+        .border {
+            padding: 2px solid;
+        }
+
+        .invPhone {
+            color: red;
+        }
+
+        .errrText {
+            background-color: red;
+        }
+    </style>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<!-- conditional rendering -->
+<!-- input that takes as phone number -->
+<!-- if number invalid then do not enable button -->
+<!-- on submit of valid phone number display on the ui -->
+<!-- Prevent Default 1:form submit,2:anchor tag,3:enter key -->
+
+<body>
+    <div id="root">
+        <!-- inject here -->
+    </div>
+    <script type="text/babel">
+        class TextDisplayer extends React.Component {
+            render() {
+                const { disText } = this.props;
+                return (
+                    <div>
+                        <h1 className="border">{disText}</h1>
+                    </div>
+                )
+            }
+        }
+        class PhoneNumber extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    isPhoneNoValid: false,
+                    phoneNum: "",
+                    displayText: false,
+                }
+            }
+
+            checkPhoneNo(str) {
+                let res = true;
+                str.split("").forEach((digitStr) => {
+                    let asci = digitStr.charCodeAt();
+                    if (!(asci > 47 && asci < 58)) {
+                        res = false;
+                    }
+                })
+                return res;
+
+            }
+            onChangePhoneNumberInput(event) {
+                event.preventDefault();
+                if (event.target.value.length !== 10) {
+                    if (this.state.isPhoneNoValid) {
+                        this.setState({
+                            isPhoneNoValid: false,
+                            displayText: false
+                        })
+                    }
+                    return false
+                }
+                if (this.checkPhoneNo(event.target.value)) {
+                    this.setState({
+                        isPhoneNoValid: true,
+                        phoneNum: event.target.value,
+                    })
+                }
+            }
+            submitBtnHandler() {
+                if (!this.state.isPhoneNoValid) {
+                    return;
+                }
+
+                //phone number valid
+                this.setState({
+                    displayText: true
+                })
+            }
+
+            render() {
+
+                return (
+                    <div className="border">
+                        <label className="phoneNumber">PhoneNumber</label>
+                        <input type="text" placeholder="enter your Number" onChange={this.onChangePhoneNumberInput.bind(this)} />
+                        {this.state.isPhoneNoValid ? <React.Fragment></React.Fragment> : <p className="invPhone">Phone number invalid</p>}
+                        <button className={this.state.isPhoneNoValid ? "" : "error Text"} onClick={this.submitBtnHandler.bind(this)}>submit</button>
+                        {this.state.displayText ? <h1>{this.state.phoneNum}</h1> : <div></div>}
+                    </div>
+                );
+            }
+        }
+        class Container extends React.Component {
+            render() {
+                return <React.Fragment>
+                    <PhoneNumber/>
+                </React.Fragment>
+            }
+        }
+        ReactDOM.render(<Container/>, document.getElementById("root"));
+    </script>
+</body>
+
+</html>

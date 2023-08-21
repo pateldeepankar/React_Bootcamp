@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 7</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- inject here -->
+    </div>
+    <script type="text/babel">
+        class MultiPage extends React.Component{
+
+            constructor(props){
+                super(props);
+                this.state={
+                    page:0
+                };
+            }
+            onClicksHandler(index){
+                this.setState({
+                    page:index,
+                })
+                // console.log(item);
+                // this.setState({
+                //     page:this.state.page+1
+                // })
+            }
+
+            getViewByPageNo(page){
+                return this.props.pages[this.state.page].component
+            }
+            render(){
+
+                const{pages}=this.props;
+               
+                return <React.Fragment>
+                       {pages.map((item,index)=>(<button key={index} onClick={()=>this.onClicksHandler.call(this,index)}>{item.pageName}</button>))}
+                    {this.getViewByPageNo()}
+                        </React.Fragment>
+                // const{pages}= this.props;
+                // return(
+                //     <div>
+
+                //         <button onClick={this.onClickHandler.bind(this)}>Test</button>
+                //         {this.getViewByPageNo(pages)}
+                //     </div>
+                // )
+            }
+        }
+        class App extends React.Component{
+            render(){
+                let pages = [
+                {
+                        pageName: "Home",
+                        component: <p>Home page description</p>
+                    },
+                    {
+                        pageName: "About",
+                        component: <p>About page description</p>
+                    },
+                    {
+                        pageName: "Testimoney",
+                        component: <p>Testimoney page description</p>
+                    },
+                    {
+                        pageName: "Contact",
+                        component: <p>Contact page description</p>
+                    },
+
+                    {
+                        pageName: "Ye yo yo",
+                        component: <p>Yo yo page description</p>
+                    },
+                ]
+                return(
+                    <React.Fragment>
+                        <MultiPage pages={pages}/>
+                    </React.Fragment>
+                )
+            }
+        }
+        ReactDOM.render(<App/>,document.getElementById("root"))
+    </script>
+</body>
+</html>

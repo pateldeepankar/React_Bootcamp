@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 8</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- inject here -->
+    </div>
+    <script type="text/babel">
+       class Deque extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={
+                    array:[],
+                    value:"",
+                    len:false
+                }
+            }
+
+            getTheInput(event){
+                const arr =this.state.array
+                this.setState({
+                    value:event.target.value
+                })
+            }
+
+            onPushStart(){
+                this.setState({
+                    array:[this.state.value,...this.state.array]
+                })
+            }
+
+            onPushEnd(){
+                this.setState({
+                    array:[...this.state.array,this.state.value]
+                })
+            }
+
+            onPopStart(){
+                const arr = this.state.array
+                arr.shift();
+                this.setState({
+                    array:arr
+                })
+            }
+            onPopEnd(){
+                const arr = this.state.array
+                arr.pop();
+                this.setState({
+                    array:arr
+                })
+            }
+
+            checkArrayLength(){
+                this.setState({
+                    len:!this.state.length
+                })
+            }
+            render(){
+                return(
+                    <div>
+                        <input type="text" placeholder="write Something" onChange={this.getTheInput.bind(this)}/>
+                        <button onClick={this.onPushStart.bind(this)}>PushStart</button>
+                        <button onClick={this.onPushEnd.bind(this)}>PushEnd</button>
+                        <button onClick={this.onPopStart.bind(this)}>PopStart</button>
+                        <button onClick={this.onPopEnd.bind(this)}>PopEnd</button>
+                        <button onClick={this.checkArrayLength.bind(this)}>Len</button>
+                        {this.state.length? <h2> this.state.array.length </h2>:<div></div>}
+                        <h1>{this.state.array.join("|")}</h1>
+                    </div>
+                )
+            }
+       }
+       class App extends React.Component{
+            render(){
+                return <React.Fragment>
+                        <Deque/>
+                        </React.Fragment>
+            }
+       }
+       ReactDOM.render(<App/>,document.getElementById("root"))
+    </script>
+</body>
+
+</html>

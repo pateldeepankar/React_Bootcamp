@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lecture 10</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+</head>
+<!-- understanding of child tree rerendering on prop change  -->
+<!-- Understand the life cycle of a component and how we can hook a functionality in it -->
+<!-- Ref:- https://www.scaler.com/topics/react/react-life-cycle-methods/ -->
+<!-- the first hook  getDerivedStateFromProps-->
+<!-- Warning: Child.getDerivedStateFromProps(): A valid state object (or null) must be returned. explaination -->
+
+<body>
+
+    <div id="root">
+        <!-- react code is getting injected here -->
+    </div>
+
+    <script type="text/babel">
+        class Child extends React.Component{
+            render(){
+                const {displayData} = this.props
+                return <h1>{displayData}</h1>
+            }
+        }
+        class Parent extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={
+                    count:0,
+                    timerRef:null
+                }
+            }
+            incrementState() {
+                    this.setState((prevState) => {
+                        return {
+                            count: this.state.count + 1
+                        }
+                    })
+            }
+
+            onStartCounter(){
+                this.setState({
+                    timerRef:setInterval(this.incrementState.bind(this),1000)
+                })
+            }
+            render(){
+                return(
+                    <div>
+                        <Child displayData={this.state.count}/>
+                        <button onClick={this.onStartCounter.bind(this)}>Start</button>
+                        {this.state.count ? <Show email="Deepankarpatel94@gmail.com"/>:null}
+                    </div>
+                )
+            }
+        }
+
+        class Display extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    email:"",
+                }
+            }
+
+            static getDerivedStateFromProps(props,state){
+                return {email:props.email};
+            }
+
+            render(){
+                return(
+                    <div>
+                        <h3>Email:{this.state.email}</h3>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Parent/>, document.getElementById('root'));
+    </script>
+
+</body>
+
+</html>
